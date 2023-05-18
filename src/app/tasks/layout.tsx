@@ -1,4 +1,4 @@
-
+import TopBar from '../../components/top-bar';
 
 export default function TasksLayout({
     children,
@@ -6,7 +6,8 @@ export default function TasksLayout({
     children: React.ReactNode
   }) {
     return (
-      <div>
+      <div className='bg-gray-100 h-screen'>
+        <TopBar/>
         <div>Left Side Bar</div>
         <div>List View</div>
         <div>Task View</div>
