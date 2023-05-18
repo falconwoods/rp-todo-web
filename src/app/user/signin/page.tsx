@@ -22,6 +22,9 @@ export default function TasksLayout({ children, }: { children: React.ReactNode }
 
         console.log(res);
 
+        const r = await api.getData('http://localhost:3000/tasks/all');
+        console.log(r);
+
         // Redirect or perform other actions
         // router.push('/tasks');
     };

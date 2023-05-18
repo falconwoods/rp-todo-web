@@ -4,7 +4,8 @@ export async function postData(url: string, data: any, config: any = {}) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
+      credentials: 'include' as RequestCredentials
     }
     fetchOption = { ...config, ...fetchOption, body: JSON.stringify(data) }
     const response = await fetch(url, fetchOption);
