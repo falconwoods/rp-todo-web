@@ -23,13 +23,16 @@ export async function postData(url: string, data: any, config: any = {}) {
 }
 
 export async function getData(url: string) {
+  let fetchOption = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include' as RequestCredentials
+  }
+
   try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await fetch(url, fetchOption);
 
     if (!response.ok) {
       throw new Error('Request failed');
