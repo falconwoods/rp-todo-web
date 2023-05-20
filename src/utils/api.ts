@@ -13,8 +13,9 @@ export async function postData(url: string, data: any, config: any = {}) {
     if (!response.ok) {
       throw new Error('Request failed');
     }
-
+    
     const responseData = await response.json();
+
     return responseData;
   } catch (error) {
     console.error(error);
