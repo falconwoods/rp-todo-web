@@ -7,10 +7,7 @@ export default function TasksLayout({
   }) {
     return (
       <div className='bg-gray-100 h-screen'>
-        <TopBar/>
-        <div>Left Side Bar</div>
-        <div>List View</div>
-        <div>Task View</div>
+        {/* <TopBar/> */}
         {children}
       </div>
     )

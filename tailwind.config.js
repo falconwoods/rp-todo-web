@@ -12,7 +12,12 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors:{
+        'nav-blue': '#2564cf'
+      }      
     },
   },
-  plugins: [],
+  plugins: [
+    require("flowbite/plugin")
+  ],
 }
