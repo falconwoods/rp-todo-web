@@ -23,7 +23,7 @@ const TaskListItem: React.FC<MyComponentProps> = ({ label, taskListId, onClick, 
     }
 
     return (
-        <li className='flex justify-between rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'>
+        <li className='flex justify-between cursor-pointer rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'>
             <div onClick={onSelectList} className="flex-1 flex items-center p-2 text-gray-900 ">
                 <SvgIcon icon='list'></SvgIcon>
                  <span className="flex-1 ml-3 whitespace-nowrap">{label}</span>
