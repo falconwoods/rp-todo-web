@@ -4,50 +4,107 @@ import SvgIcon from "@/components/svg-icon";
 import TaskItem from "@/components/task-item";
 import TaskListCategoryItem from "@/components/task-list-category-item";
 import TaskListItem from "@/components/task-list-item";
-import TopBar from "@/components/top-bar";
-import { Card, Badge } from "flowbite-react";
-import { DropdownItem } from "flowbite-react/lib/esm/components/Dropdown/DropdownItem";
+import { Button } from "@mui/material";
+import AddListDialog, { AddListDialogRef } from "@/components/add-list-dialog";
+import { useContext, useEffect, useRef } from "react";
+import AppContext from "@/context/AppContext";
+import { getAPI, postAPI } from "@/utils/api";
+import EditListDialog, { EditListDialogRef } from "@/components/edit-list-dialog";
 
 export default function Home() {
+    const { sharedData, setSharedData } = useContext(AppContext);
+    const dialogRef = useRef<AddListDialogRef>(null);
+    const dialogEditListRef = useRef<EditListDialogRef>(null);
+
+    useEffect(() => {
+        updateTasklists();
+    }, [])
+
+    const updateTasklists = async () => {
+        let ret = await getAPI('/lists/all');
+        console.log('updateTasklists', ret);
+        setSharedData((preState: any) => ({
+            ...preState,
+            tasklists: ret.data
+        }));
+    }
+
+    const onDeleteList = async (id: number) => {
+        let ret = await postAPI('/lists/delete', { id });
+        console.log(ret);
+        updateTasklists();
+    }
+
+    const onEditList = async (id: number, label:string) => {
+        console.log('edit', id);
+        dialogEditListRef.current?.handleClickOpen(id, label);
+    }
 
     const onSort = (val: string): void => {
         console.log(val);
     };
 
-    const onClickTaskItem = (taskId: number) =>{
+    const onClickTaskItem = (taskId: number) => {
         console.log(taskId);
     }
 
-    const onTaskItemChangeState = (taskId:number, val:boolean)=>{
+    const onTaskItemChangeState = (taskId: number, val: boolean) => {
         console.log(taskId, val);
     }
 
-    const onTaskItemDel = (taskId: number) =>{
+    const onTaskItemDel = async (taskId: number) => {
         console.log('del task', taskId);
+        let ret = await postAPI('/tasks/delete', { id: taskId });
+        console.log(ret);
+    }
+
+    const onNewList = () => {
+        if (dialogRef.current)
+            dialogRef.current.handleClickOpen();
+    };
+
+    const onDialogCreateList = async (name: string) => {
+        let ret = await postAPI('/lists/create', { name });
+        updateTasklists();
+    }
+
+    const onDialogEditList = async (id:number, name: string) => {
+        console.log(id, name);
+        let ret = await postAPI('/lists/update', {id, name });
+        updateTasklists();
     }
 
     return (
         <>
-            <TopBar></TopBar>
+            <AddListDialog ref={dialogRef} onOk={onDialogCreateList}></AddListDialog>
+            <EditListDialog ref={dialogEditListRef} onOk={onDialogEditList}></EditListDialog>
 
             <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
                 <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                     <ul className="space-y-2 font-medium">
-                        <TaskListCategoryItem label="All Tasks" onClick={()=>{}}>
+                        <TaskListCategoryItem label="All Tasks" onClick={() => { }}>
                             <SvgIcon icon="home"></SvgIcon>
                         </TaskListCategoryItem>
 
-                        <TaskListCategoryItem label="Important" onClick={()=>{}}>
+                        <TaskListCategoryItem label="Important" onClick={() => { }}>
                             <SvgIcon icon="star"></SvgIcon>
                         </TaskListCategoryItem>
 
-                        <TaskListCategoryItem label="Planned" onClick={()=>{}}>
+                        <TaskListCategoryItem label="Planned" onClick={() => { }}>
                             <SvgIcon icon="calendar"></SvgIcon>
                         </TaskListCategoryItem>
                     </ul>
                     <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-                        <TaskListItem label="School" taskListId={1} onClick={()=>{}} onDelete={()=>{}}></TaskListItem>
-                        <TaskListItem label="Work" taskListId={1} onClick={()=>{}} onDelete={()=>{}}></TaskListItem>
+                        {
+                            sharedData.tasklists?.map((item: any) => {
+                                return <TaskListItem
+                                    key={item.id} label={item.name} taskListId={item.id}
+                                    onClick={() => { }}
+                                    onDelete={onDeleteList}
+                                    onEdit={onEditList}></TaskListItem>
+                            })
+                        }
+                        <Button onClick={onNewList} variant="outlined" fullWidth={true}>New List</Button>
                     </ul>
                 </div>
             </aside>
@@ -74,6 +131,7 @@ export default function Home() {
 
                     <div className="space-y-2">
                         <TaskItem taskName="asg1" taskId={1} taskStatus={true} onClick={onClickTaskItem} onChangeStatus={onTaskItemChangeState} onDel={onTaskItemDel}></TaskItem>
+
                     </div>
 
                 </div>

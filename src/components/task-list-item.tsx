@@ -1,25 +1,29 @@
 import React, { ReactNode } from 'react';
 import ButtonTrash from './button-trash';
 import SvgIcon from './svg-icon';
+import {PencilSquareIcon} from '@heroicons/react/24/outline'
 
 type MyComponentProps = {
     label: string;
     taskListId: number;
     onClick: (id: number) => void;
     onDelete: (id: number) => void;
+    onEdit: (id: number, label:string) => void;
     // children: ReactNode;
 };
 
-const TaskListItem: React.FC<MyComponentProps> = ({ label, taskListId, onClick, onDelete }) => {
+const TaskListItem: React.FC<MyComponentProps> = ({ label, taskListId, onClick, onDelete, onEdit }) => {
 
     const onSelectList = () => {
         onClick(taskListId);
-        console.log('list ' + taskListId);
     }
 
     const onDeleteList = () => {
         onDelete(taskListId);
-        console.log('delete list ' + taskListId);
+    }
+
+    const onEditList = () => {
+        onEdit(taskListId, label);
     }
 
     return (
@@ -28,6 +32,8 @@ const TaskListItem: React.FC<MyComponentProps> = ({ label, taskListId, onClick, 
                 <SvgIcon icon='list'></SvgIcon>
                  <span className="flex-1 ml-3 whitespace-nowrap">{label}</span>
             </div>
+            
+            <button onClick={onEditList} className='mx-2'><PencilSquareIcon width={20} height={20}></PencilSquareIcon></button>
             <button onClick={onDeleteList}><SvgIcon icon='trash' /></button>
         </li>
     );
