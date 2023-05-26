@@ -6,8 +6,9 @@ export async function postAPI(api: string, data: any, config: any = {}) {
   return await postData(url, data, config);
 }
 
-export async function getAPI(api: string) {
-  const url = SERVER + api;
+export async function getAPI(api: string, queries:any={}) {
+  const queryString = new URLSearchParams(queries).toString();
+  const url = `${SERVER}${api}?${queryString}`;
   return await getData(url);
 }
 
