@@ -9,24 +9,21 @@ export default function TasksLayout({ children, }: { children: React.ReactNode }
     const router = useRouter();
     const [formData, setFormData] = useState({});
 
-    const handleInputChange = (e:any) => {
+    const handleInputChange = (e: any) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e:any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         console.log(formData);
 
-        const res = await api.postData('http://localhost:3000/users/signin', formData);
+        const res = await api.postAPI('/users/signin', formData);
 
         console.log(res);
-
-        const r = await api.getData('http://localhost:3000/tasks/all');
-        console.log(r);
-
-        // Redirect or perform other actions
-        // router.push('/tasks');
+        
+        if (res?.error == null)
+            router.push('/tasks');
     };
 
     return (

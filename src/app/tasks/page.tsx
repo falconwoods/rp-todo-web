@@ -13,6 +13,7 @@ import EditListDialog, { EditListDialogRef } from "@/components/edit-list-dialog
 import Tasks from "@/components/tasks";
 import * as React from 'react';
 import { useState } from 'react';
+import {ArrowsUpDownIcon} from '@heroicons/react/24/outline'
 
 
 export default function Home() {
@@ -95,6 +96,7 @@ export default function Home() {
                                     onEdit={onEditList}></TaskListItem>
                             })
                         }
+                        
                         <Button onClick={onNewList} variant="outlined" fullWidth={true}>New List</Button>
                     </ul>
                 </div>
