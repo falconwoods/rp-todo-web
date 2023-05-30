@@ -22,7 +22,7 @@ interface EditListDialogProps {
 
 const EditTaskDialog = React.forwardRef<EditTaskDialogRef, EditListDialogProps>((props: EditListDialogProps, ref) => {
     const [open, setOpen] = React.useState(false);
-    const [task, setTask] = useState({ name: '', note: '', due: '', completed: false, listId: null });
+    const [task, setTask] = useState({ name: '', note: '', due: '', completed: false, important: false, listId: null });
 
     const handleClickOpen = (task: any) => {
         setOpen(true);
@@ -46,34 +46,31 @@ const EditTaskDialog = React.forwardRef<EditTaskDialogRef, EditListDialogProps>(
     return (
         <div>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Edit List</DialogTitle>
+                <DialogTitle>Edit Task</DialogTitle>
                 <DialogContent>
                     <Box py={3} gap={2} display={'flex'} flexDirection={'column'}>
                         <TextField required value={task.name}
                             onChange={(e) => {
                                 setTask(pre => {
-                                    pre.name = e.target.value;
-                                    return pre;
+                                    return { ...pre, name: e.target.value }
                                 })
                             }}
                             label="task name" variant="outlined"
                         />
-                        <TextField required value={task.name}
+                        <TextField required value={task.note}
                             onChange={(e) => {
                                 setTask(pre => {
-                                    pre.note = e.target.value;
-                                    return pre;
+                                    return { ...pre, note: e.target.value }
                                 })
                             }}
                             label="task note" variant="outlined"
                         />
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker label="Due" defaultValue={dayjs(task.due)}
+                            <DatePicker label="Due" defaultValue={(task.due == null || task.due.length == 0) ? null : dayjs(task.due)}
                                 onChange={(val) => {
                                     const formattedDate = dayjs(val).format('YYYY-MM-DD');
                                     setTask(pre => {
-                                        pre.due = formattedDate;
-                                        return pre;
+                                        return { ...pre, due: formattedDate }
                                     })
                                 }
                                 }
@@ -81,16 +78,24 @@ const EditTaskDialog = React.forwardRef<EditTaskDialogRef, EditListDialogProps>(
                         </LocalizationProvider>
                         <FormControlLabel
                             control={
-                                <Checkbox
-                                    color="primary"
+                                <Checkbox color="primary" checked={task.completed}
+                                    onChange={(e) => {
+                                        setTask(pre => {
+                                            return { ...pre, completed: e.target.checked }
+                                        })
+                                    }}
                                 />
                             }
                             label="Completed"
                         />
                         <FormControlLabel
                             control={
-                                <Checkbox
-                                    color="primary"
+                                <Checkbox color="primary" checked={task.important}
+                                    onChange={(e) => {
+                                        setTask(pre => {
+                                            return { ...pre, important: e.target.checked }
+                                        })
+                                    }}
                                 />
                             }
                             label="Important"
