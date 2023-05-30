@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useEffect, useRef } from 'react';
+import React, { ReactNode, useState, useEffect, useRef, useContext } from 'react';
 import ButtonTrash from './button-trash';
 import SvgIcon from './svg-icon';
 import { getAPI, getData, postAPI } from '@/utils/api';
@@ -6,6 +6,7 @@ import TaskItem from './task-item';
 import { Button } from '@mui/material'
 import { ArrowsUpDownIcon } from '@heroicons/react/24/outline'
 import EditTaskDialog, { EditTaskDialogRef } from './edit-task-dialog';
+import AppContext from '@/context/AppContext';
 
 type MyComponentProps = {
     listName: string;
@@ -14,12 +15,18 @@ type MyComponentProps = {
 };
 
 const Tasks: React.FC<MyComponentProps> = ({ listName, listId }) => {
+    const { sharedData, setSharedData } = useContext(AppContext);
     const [tasks, setTasks] = useState([]);
     const [sortType, setSortType] = useState('default');
     const dialogRef = useRef<EditTaskDialogRef>(null);
 
     let requestTasks = async () => {
         let ret = await getAPI(`/tasks/bylist`, { listId });
+        ret.data = ret.data.filter((item:any)=>{
+            if(sharedData.search == '')
+                return true;
+            return item.name.includes(sharedData.search);
+        })
         if (sortType == 'due') {
             ret.data.sort((a: any, b: any) => {
                 return a.due > b.due ? 1 : -1;
@@ -30,7 +37,8 @@ const Tasks: React.FC<MyComponentProps> = ({ listName, listId }) => {
 
     useEffect(() => {
         requestTasks();
-    }, [listId, sortType]);
+        console.log('search', sharedData.search)
+    }, [listId, sortType, sharedData.search]);
 
     const onSort = (val: string): void => {
         if (val == sortType) return;
