@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import SvgIcon from "@/components/svg-icon";
 import TaskItem from "@/components/task-item";

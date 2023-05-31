@@ -1,13 +1,17 @@
-'use client'
+'use client';
 
-import { IconButton, InputBase, Paper } from '@mui/material';
+import { Button, IconButton, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CleanHands from '@mui/icons-material/CleanHands'
 import ClearIcon from '@mui/icons-material/Clear';
 import React, { useContext, useRef } from 'react';
 import AppContext from '@/context/AppContext';
+import { destroyCookie } from 'nookies';
+import { getAPI } from '@/utils/api';
+import { useRouter } from "next/navigation"
 
 const TopBar: React.FC = () => {
+    const router = useRouter();
     const { sharedData, setSharedData } = useContext(AppContext);
     const searchRef = useRef<HTMLInputElement>(null);
 
@@ -26,6 +30,12 @@ const TopBar: React.FC = () => {
         console.log(e.target.value);
     }
 
+    const onLogout = async ()=>{
+        // destroyCookie(null, 'jwtToken');
+        await getAPI('/users/logout');
+        router.push('/user/signin');
+    }
+
     return (
         <nav className="fixed top-0 z-50 w-full bg-blue-500 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div className="px-3 py-3 lg:px-5 lg:pl-3">
@@ -37,7 +47,7 @@ const TopBar: React.FC = () => {
                                 <path clipRule="evenodd" fillRule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
                             </svg>
                         </button>
-                        <a href="https://flowbite.com" className="flex ml-2 md:mr-24">
+                        <a className="flex ml-2 md:mr-24">
                             <img src="/todo.svg" className="h-8 mr-3" alt="FlowBite Logo" />
                             <span className="self-center text-white text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">ToDo</span>
                         </a>
@@ -62,11 +72,8 @@ const TopBar: React.FC = () => {
                     </div>
                     <div className="flex items-center">
                         <div className="flex items-center ml-3">
-                            <div>
-                                <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                                    <span className="sr-only">Open user menu</span>
-                                    <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo" />
-                                </button>
+                            <div onClick={onLogout} className='text-white cursor-pointer'>
+                                Logout
                             </div>
                             <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
                                 <div className="px-4 py-3" role="none">

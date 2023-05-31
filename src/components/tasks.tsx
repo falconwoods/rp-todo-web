@@ -23,7 +23,7 @@ const Tasks: React.FC<MyComponentProps> = ({ listName, listId }) => {
     let requestTasks = async () => {
         let ret = await getAPI(`/tasks/bylist`, { listId });
         ret.data = ret.data.filter((item:any)=>{
-            if(sharedData.search == '')
+            if(sharedData.search == '' || sharedData.search == undefined)
                 return true;
             return item.name.includes(sharedData.search);
         })
