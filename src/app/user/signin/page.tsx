@@ -3,6 +3,10 @@
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import * as api from '../../../utils/api'
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function TasksLayout({ children, }: { children: React.ReactNode }) {
 
@@ -19,11 +23,17 @@ export default function TasksLayout({ children, }: { children: React.ReactNode }
         console.log(formData);
 
         const res = await api.postAPI('/users/signin', formData);
-
-        console.log(res);
-        
-        if (res?.error == null)
+        if (res?.error == null) {
             router.push('/tasks');
+            return;
+        }
+
+        let msg = res.error;
+        switch (res.status) {
+            case 401:
+                res.error = 'username or password is invalid, please try again';
+        }
+        toast.error(res.error);
     };
 
     return (

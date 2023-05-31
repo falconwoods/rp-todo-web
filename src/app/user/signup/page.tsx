@@ -4,8 +4,6 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import * as api from '../../../utils/api'
 import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function TasksLayout({ children, }: { children: React.ReactNode }) {
 
@@ -24,7 +22,7 @@ export default function TasksLayout({ children, }: { children: React.ReactNode }
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        const res = await api.postData('http://localhost:3000/users/signup', formData);
+        const res = await api.postAPI('/users/signup', formData);
         console.log(res);
 
         if(res.error != null){
@@ -37,7 +35,6 @@ export default function TasksLayout({ children, }: { children: React.ReactNode }
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
-            <ToastContainer/>
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                     <img className="w-8 h-8 mr-2" src="https://res-1.cdn.office.net/todo/982104_2.95.3/touch-icon-180x180.png" alt="logo" />
