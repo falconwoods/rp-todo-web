@@ -1,6 +1,10 @@
+require('dotenv').config();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // port: 4000
+    env: {
+        SERVER: process.env.SERVER,
+      },
 }
 
 module.exports = nextConfig
