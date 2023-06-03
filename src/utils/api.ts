@@ -1,5 +1,5 @@
 
-const SERVER = process.env.SERVER ? process.env.SERVER : 'http://localhost:3000';
+const SERVER = process.env.SERVER ? process.env.SERVER : 'http://192.168.1.102:3000';
 
 export class HttpError extends Error {
   status: number;
