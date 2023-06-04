@@ -91,7 +91,7 @@ const Tasks: React.FC<MyComponentProps> = ({ listName, listId }) => {
     }
 
     return (
-        <div className="p-4 rounded-lg dark:border-gray-700 mt-14">
+        <div className="p-4 rounded-lg dark:border-gray-700 mt-0">
             <EditTaskDialog ref={dialogRef} onOk={onEditTaskOk} />
             <div className="flex justify-between w-full text-xl text-blue-500 font-medium my-2">
                 <div className="flex items-center space-x-2">
