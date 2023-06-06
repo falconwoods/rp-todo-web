@@ -90,6 +90,10 @@ export default function Home() {
                     <TaskListCategoryItem label="Planned" onClick={() => { onClickListItem(-3, 'Planned') }}>
                         <SvgIcon icon="calendar"></SvgIcon>
                     </TaskListCategoryItem>
+
+                    <TaskListCategoryItem label="Complted" onClick={() => { onClickListItem(-4, 'Complted') }}>
+                        <SvgIcon icon="calendar"></SvgIcon>
+                    </TaskListCategoryItem>
                 </ul>
                 <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                     {

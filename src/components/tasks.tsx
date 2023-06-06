@@ -1,10 +1,9 @@
 import React, { ReactNode, useState, useEffect, useRef, useContext } from 'react';
 import ButtonTrash from './button-trash';
 import SvgIcon from './svg-icon';
-import { getAPI, getData, postAPI } from '@/utils/api';
+import { getAPI, postAPI } from '@/utils/api';
 import TaskItem from './task-item';
 import { Button } from '@mui/material'
-import { ArrowsUpDownIcon } from '@heroicons/react/24/outline'
 import EditTaskDialog, { EditTaskDialogRef } from './edit-task-dialog';
 import AppContext from '@/context/AppContext';
 
@@ -23,8 +22,12 @@ const Tasks: React.FC<MyComponentProps> = ({ listName, listId }) => {
     let requestTasks = async () => {
         let ret = await getAPI(`/tasks/bylist`, { listId });
         ret.data = ret.data.filter((item: any) => {
+            if(listId !== -4 && item.completed)
+                return false;
+
             if (sharedData.search == '' || sharedData.search == undefined)
                 return true;
+
             return item.name.includes(sharedData.search);
         })
         if (sortType == 'due') {
