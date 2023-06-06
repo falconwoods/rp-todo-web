@@ -111,4 +111,6 @@ const EditTaskDialog = React.forwardRef<EditTaskDialogRef, EditListDialogProps>(
     );
 })
 
+EditTaskDialog.displayName = 'Edit Task'
+
 export default EditTaskDialog;

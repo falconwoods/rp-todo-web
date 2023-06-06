@@ -63,4 +63,6 @@ const EditListDialog = React.forwardRef<EditListDialogRef,EditListDialogProps>((
     );
 })
 
+EditListDialog.displayName = "Edit List"
+
 export default EditListDialog;

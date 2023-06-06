@@ -61,4 +61,6 @@ const AddListDialog = React.forwardRef<AddListDialogRef,AddListDialogProps>((pro
     );
 })
 
+AddListDialog.displayName = "New List";
+
 export default AddListDialog;

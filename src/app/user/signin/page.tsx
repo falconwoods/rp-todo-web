@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function TasksLayout({ children, }: { children: React.ReactNode }) {
+export default function Signin() {
 
     const router = useRouter();
     const [formData, setFormData] = useState({});

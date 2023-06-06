@@ -5,7 +5,7 @@ import { useState } from "react"
 import * as api from '../../../utils/api'
 import { toast } from 'react-toastify';
 
-export default function TasksLayout({ children, }: { children: React.ReactNode }) {
+export default function Signup() {
 
     const router = useRouter();
     const [formData, setFormData] = useState({});
